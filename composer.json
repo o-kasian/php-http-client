@@ -1,0 +1,17 @@
+{
+    "name": "projasource/httpclient",
+    "description": "HTTP client library for making http requests without curl",
+    "license": "MIT",
+    "version": "1.0.0.RC1",
+    "autoload": {
+        "psr-0": {
+            "org": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Oleg Kasian",
+            "email": "o-kasian@yandex.ru"
+        }
+    ]
+}
