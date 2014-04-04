@@ -11,36 +11,37 @@ A simple and flexible tool to make HTTP requests from php applications.
 
 ###Installation:
 You can either use composer or include **util.php** in your app, adding
-
-    httpClientAutoLoad($className);
-    
+```php
+httpClientAutoLoad($className);
+```
 to your `__autoload` chain
 ###Examples:
 Basically, any request starts with `HttpRequest::build($url)`.
 ####Basic Example:
-
-    $response = HttpRequest::build("https://example.com")->execute();
-    var_dump($response->getEntity());
-
+```php
+$response = HttpRequest::build("https://example.com")->execute();
+var_dump($response->getEntity());
+```
 ####Proxy Example:
-
-    $response = HttpRequest::build("https://example.com")
-        ->method("POST")
-        ->contentType("application/json")
-        ->entity(json_encode($entity))
-        ->proxy("http://user:password@192.168.0.1:8080")
-        ->accept("application/json")
-        ->execute();
-    echo $response->getEntity()->field;
-
+```php
+$response = HttpRequest::build("https://example.com")
+    ->method("POST")
+    ->contentType("application/json")
+    ->entity(json_encode($entity))
+    ->proxy("http://user:password@192.168.0.1:8080")
+    ->accept("application/json")
+    ->execute();
+echo $response->getEntity()->field;
+```
 ####Extended SSL example:
+```php
+$context = stream_context_create();
+stream_context_set_option($context, 'ssl', 'cafile', $path);
+stream_context_set_option($context, 'ssl', 'verify_host', true);
+stream_context_set_option($context, 'ssl', 'verify_peer', true);
+stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
 
-    $context = stream_context_create();
-    stream_context_set_option($context, 'ssl', 'cafile', $path);
-    stream_context_set_option($context, 'ssl', 'verify_host', true);
-    stream_context_set_option($context, 'ssl', 'verify_peer', true);
-    stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
-
-    $response = HttpRequest::build("https://example.com")
-        ->context($context)
-        ->execute();
+$response = HttpRequest::build("https://example.com")
+    ->context($context)
+    ->execute();
+```
