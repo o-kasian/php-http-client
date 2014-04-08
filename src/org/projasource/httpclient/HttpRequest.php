@@ -5,6 +5,11 @@ namespace org\projasource\httpclient;
 use org\projasource\httpclient\HttpProxy;
 use org\projasource\httpclient\HttpResponse;
 
+/**
+ * 
+ * @author Oleg Kasian <o-kasian@yandex.ru>
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 class HttpRequest {
 
     private $useSSL = true;
@@ -171,11 +176,11 @@ class HttpRequest {
     
     public function getDefaultContext() {
         $context = stream_context_create();
-        $path = getenv("httpclient.cacert.path");
+        $path = getenv(HTTPCLIENT_CACERT_PATH);
         if ($path && file_exists($path)) {
             stream_context_set_option($context, 'ssl', 'cafile', $path);
-            if (getenv("httpclient.cacert.passprase")) {
-                stream_context_set_option($context, 'ssl', 'passphrase', getenv("httpclient.cacert.passprase"));
+            if (getenv(HTTPCLIENT_CACERT_PASSPHRASE)) {
+                stream_context_set_option($context, 'ssl', 'passphrase', getenv(HTTPCLIENT_CACERT_PASSPHRASE));
             }
             stream_context_set_option($context, 'ssl', 'verify_host', true);
             stream_context_set_option($context, 'ssl', 'verify_peer', true);

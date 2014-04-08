@@ -2,6 +2,11 @@
 
 namespace org\projasource\httpclient;
 
+/**
+ * 
+ * @author Oleg Kasian <o-kasian@yandex.ru>
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 class HttpResponse {
 
     private $statusCode;
