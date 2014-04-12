@@ -116,7 +116,6 @@ class HttpProxy {
         if (!$this->isValid()) {
             throw new Exception("Proxy parameters are not set correctly " . $this);
         }
-        //TODO: add validation for no-proxy hosts
         return $request->getUseSSL() ? $this->connectViaSSL($request) : $this->connectViaTCP($request);
     }
 
