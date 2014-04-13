@@ -7,12 +7,12 @@ use org\projasource\httpclient\HttpResponse;
 
 /**
  * Starting point for making a http requests.
- * 
+ *
  * Uses builder pattern making your code easy
  * to write, and easy to understand.
- * 
+ *
  * A basic example of usage would be:<br>
- * 
+ *
  * <pre><code>
  * $response = HttpRequest::build("https://example.com")
  * &nbsp;&nbsp;&nbsp;&nbsp;->method("POST")
@@ -21,10 +21,10 @@ use org\projasource\httpclient\HttpResponse;
  * &nbsp;&nbsp;&nbsp;&nbsp;->proxy("http://user:password@192.168.0.1:8080")
  * &nbsp;&nbsp;&nbsp;&nbsp;->accept("application/json")
  * &nbsp;&nbsp;&nbsp;&nbsp;->execute();
- * 
+ *
  * echo $response->getEntity()->field;
  * </pre></code>
- * 
+ *
  * @author Oleg Kasian <o-kasian@yandex.ru>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -54,7 +54,7 @@ class HttpRequest {
 
     /**
      * Returns request constructed or the $url.
-     * 
+     *
      * Basicly, it does nothing but <code>new HttpRequest($url);</code>,
      * however making it possible to write a request without assigning link to it,
      * f.ex.<br>
@@ -62,7 +62,7 @@ class HttpRequest {
      * <br>
      * In future some other logic may be added to this method, so it is
      * recomended to be used instead of constructor.
-     * 
+     *
      * NOTICE! an url containing user:pass section.
      * @param string $url an url for request
      * @return \org\projasource\httpclient\HttpRequest
@@ -73,11 +73,11 @@ class HttpRequest {
 
     /**
      * Constructs a new HttpRequest with a given url.
-     * 
+     *
      * It is possible but not recomended to use constructor for
      * obtaining an instance of HttpRequest, use {@see HttpRequest::build($url)}
      * instead.
-     * 
+     *
      * @param string $url an url for request
      */
     public function __construct($url) {
@@ -95,14 +95,14 @@ class HttpRequest {
 
     /**
      * Set's a http request header.
-     * 
+     *
      * NOTICE! A validation is performed, according to RFC822 section 3.1,
      * triggering a warning if not valid.
-     * 
+     *
      * If a headers containing an underscore, would be concerned partialy valid,
      * as they are valid by RFC822, but not recognized well by most http servers
      * (becouse of CGI env variables naming).
-     *  
+     *
      * @param type $headerName
      * @param type $value
      * @return \org\projasource\httpclient\HttpRequest
@@ -120,10 +120,10 @@ class HttpRequest {
 
     /**
      * Set's a request method.
-     * 
+     *
      * @param string $method could be any of
      * 'OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'PATCH'
-     * 
+     *
      * @return \org\projasource\httpclient\HttpRequest
      */
     public function method($method) {
@@ -135,10 +135,10 @@ class HttpRequest {
 
     /**
      * Set's a request query parameter, to be appended into request query.
-     * 
+     *
      * Parameter would be urlencoded automatically, so you
      * don't have to make any encoding by yourself.
-     * 
+     *
      * @param string $name parameter name
      * @param string $value parameter value
      * @return \org\projasource\httpclient\HttpRequest
@@ -150,14 +150,17 @@ class HttpRequest {
 
     /**
      * Set's an entity to be used in HttpRequest.
-     * 
+     *
      * Could be of any type, conversion will be made
      * using when sending a request with a {@link contentType($type)}
      * set.
-     * 
+     *
      * If a content type, or type of entity are not recognized,
      * conversion to string will be obtained.
-     * 
+     *
+     * If request type does not asume any entity (GET, HEAD),
+     * it will be ignored.
+     *
      * @param mixed $entity entity of any type
      * @return \org\projasource\httpclient\HttpRequest
      */
@@ -168,24 +171,80 @@ class HttpRequest {
         return $this;
     }
 
+    /**
+     * A content type of the entity.
+     *
+     * Asumes a format of [type "/" subtype],
+     * as described in RFC 2615 section 3.6.1.
+     *
+     * Content type is further used to convert entity into string
+     * (if necessary) while sending a request body, and is set into
+     * 'Content-Type' header.
+     *
+     * NOTICE! Any data after semicolon (";") will be lost.
+     *
+     * @param string $type content type
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function contentType($type) {
         //TODO: validate
         $this->contentType = $type;
         return $this;
     }
 
+    /**
+     * Charset to be set for the request entity.
+     *
+     * Any entity is converted to specified charset,
+     * when sending request body.
+     *
+     * Default value is 'ISO-8859-1'
+     *
+     * @param string $charset charset
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function charset($charset) {
         //TODO: validate
         $this->charset = $charset;
         return $this;
     }
 
+    /**
+     * Set's an 'Accept' http header.
+     *
+     * Is validated like {@see contentType}, except data
+     * after semicolon is not been removed.
+     *
+     * @param mixed $type contentType, expected to be returned in response.
+     * May be eather string, or an array of strings (any of type listed is acceptable).
+     *
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function accept($type) {
         //TODO: validate
-        $this->accept[] = $type;
+        switch (gettype($type)) {
+            case 'array':
+                foreach ($type as $str) {
+                    $this->accept($str);
+                }
+                break;
+            case 'string':
+            default:
+                $this->accept[] = $type;
+        }
         return $this;
     }
-    
+
+    /**
+     * Set's up a proxy to be used in request.
+     *
+     * Can also be made setting an environment variables 'httpclient.proxy.url'
+     * and 'httpclient.noproxy'.
+     *
+     * @see HttpProxy
+     * @param mixed $proxy an url string or an instance of {@see HttpProxy}
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function proxy($proxy) {
         switch (gettype($proxy)) {
             case 'string':
@@ -202,26 +261,62 @@ class HttpRequest {
         return $this;
     }
 
+    /**
+     * Set's a stream context {@see stream_context_create()} to be used
+     * when opening a socket to remote http server.
+     *
+     * @param resource $context stream context
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function context($context) {
         $this->context = $context;
         return $this;
     }
 
+    /**
+     * Set's a timeout used when establishing socket connection.
+     *
+     * @param int $timeout connectin timeout
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function connectTimeout($timeout) {
         $this->connectionTimeOut = $timeout;
         return $this;
     }
 
+    /**
+     * Set's a timeout for reading from socket (a max time, that socket
+     * may be opened after connected).
+     *
+     * @param int $timeout read timeout
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function readTimeout($timeout) {
         $this->readTimeOut = $timeout;
         return $this;
     }
 
+    /**
+     * Switches a request into async/sync mode.
+     *
+     * If an async mode is used, no reading from socket is made,
+     * client just send's a request as is, no response is actually returned.
+     *
+     * Is usefull, when 'in only' pattern is used.
+     *
+     * @param boolean $async a mode for request
+     * @return \org\projasource\httpclient\HttpRequest
+     */
     public function async($async) {
         $this->async = $async;
         return $this;
     }
 
+    /**
+     * Executes a request, and returnes a response.
+     *
+     * @return \org\projasource\httpclient\HttpResponse response
+     */
     public function execute() {
         //TODO: look into HTTPCLIENT_PROXY_URL, HTTPCLIENT_NOPROXY
         //TODO: add validation for no-proxy hosts
@@ -235,37 +330,75 @@ class HttpRequest {
         return $response;
     }
 
+    /**
+     * Writes a request body into a given socket connection.
+     *
+     * Is usefull when you want to debug a request, writing
+     * diretly to STDOUT or file.
+     *
+     * @param resource $resource any output stream
+     */
     public function write($resource) {
         $this->writeStatusLine($resource);
         $this->writeHeaders($resource);
         $this->writeBody($resource);
     }
 
+    /**
+     * Returnes whether SSL will be used in connection or not.
+     *
+     * @return boolean
+     */
     public function getUseSSL() {
         return $this->useSSL;
     }
 
+    /**
+     * Returnes a remote server port.
+     *
+     * @return int
+     */
     public function getPort() {
         return $this->port;
     }
 
+    /**
+     * Returns a remote server hostname.
+     *
+     * @return string
+     */
     public function getHost() {
         return $this->host;
     }
 
+    /**
+     * Returnes a stream context to be used in request.
+     *
+     * @return resource
+     */
     public function getContext() {
         return $this->context ? $this->context : $this->getDefaultContext();
     }
 
+    /**
+     * Returns a connection timeout.
+     *
+     * @return int
+     */
     public function getConnectionTimeOut() {
         return $this->connectionTimeOut;
     }
 
+    /**
+     * Returnes a read timeout.
+     *
+     * @return int
+     */
     public function getReadTimeOut() {
         return $this->readTimeOut;
     }
-    
-    public function getDefaultContext() {
+
+    protected function getDefaultContext() {
         $context = stream_context_create();
         $path = getenv(HTTPCLIENT_CACERT_PATH);
         if ($path && file_exists($path)) {
@@ -314,6 +447,8 @@ class HttpRequest {
     }
 
     protected function writeBody($res) {
+        //convert to string
+        //convert to appropriate encoding
         fwrite($res, self::CRLF);
         if ($this->entity) {
             fwrite($res, $this->entity);
