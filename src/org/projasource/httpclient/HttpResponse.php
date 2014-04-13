@@ -3,6 +3,8 @@
 namespace org\projasource\httpclient;
 
 /**
+ * Describes response of http server, provides methods for
+ * fast access to different response parts.
  * 
  * @author Oleg Kasian <o-kasian@yandex.ru>
  * @license http://opensource.org/licenses/MIT MIT

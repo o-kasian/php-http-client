@@ -63,3 +63,15 @@ function isIpInRange($ip, $range) {
     $netmask_decimal = ~ $wildcard_decimal;
     return ( ( $ip_decimal & $netmask_decimal ) == ( $range_decimal & $netmask_decimal ) );
 }
+
+/**
+ * Builds a new {@see \org\projasource\httpclient\HttpRequest}.
+ * 
+ * An alias for {@see \org\projasource\httpclient\HttpRequest::build($url)}.
+ * 
+ * @param string $url an url for constructing a request
+ * @return \org\projasource\httpclient\HttpRequest
+ */
+function httpRequest($url) {
+    return \org\projasource\httpclient\HttpRequest::build($url);
+}
