@@ -45,3 +45,6 @@ $response = HttpRequest::build("https://example.com")
     ->context($context)
     ->execute();
 ```
+
+####API Documentation
+To get api documentation one may use **generate-doc** make target, or [view it online](http://o-kasian.github.io/php-http-client/doc/namespaces/org.projasource.httpclient.html)
