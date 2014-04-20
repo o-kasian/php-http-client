@@ -11,7 +11,7 @@ namespace org\projasource\httpclient;
  */
 class HttpResponse {
 
-    private $statusCode;
+    private $statusCode = 0;
     private $reasonPhrase;
     private $httpVersion;
     private $headers = array();
@@ -20,7 +20,22 @@ class HttpResponse {
     private $charset;
     private $entity;
 
-    function __construct($resource) {
+    /**
+     * Creates new HttpResponse, reading it from
+     * input sream of the given resource.
+     * 
+     * In most cases Response is not constructed
+     * manually, however it may be 'mocked' by opening
+     * a file containing raw http response, and passing
+     * file descriptor to a constructor f.ex.
+     * <code><pre>
+     * $fp = fopen('response.raw');
+     * $resp = new HttpResponse($fp);
+     * </pre></code>
+     * 
+     * @param resource $resource
+     */
+    public function __construct($resource) {
         $inBody = false;
         $lastHeader = null;
         while ($line = fgets($resource)) {
@@ -36,6 +51,7 @@ class HttpResponse {
                 continue;
             }
             if ($inBody) {
+                //TODO: conversion
                 $this->body .= $line;
             } else {
                 if ($lastHeader == null || substr($line, 0, 1) !== " ") {
@@ -48,26 +64,74 @@ class HttpResponse {
         $this->process();
     }
 
+    /**
+     * Returns http headers in a form of array.
+     * 
+     * NOTICE! All header names will be lowercased,
+     * as far as they have to be case insensitive.
+     * If you need to obtain an information about
+     * a concrete header, use {@see getHeader}
+     * 
+     * @return array associative array $header_name => $header_value
+     */
     public function getHeaders() {
         return $this->headers;
     }
 
+    /**
+     * Returns value for the header with a given name.
+     * 
+     * NOTICE! Header names are case insensitive.
+     * 
+     * @param string $name name of the header
+     * @return string header value, or null if no header for the
+     * given name exist.
+     */
     public function getHeader($name) {
-        return $this->headers[trim(strtolower($name))];
+        $nm = trim(strtolower($name));
+        return isset($this->headers[$nm]) ? $this->headers[$nm] : null;
     }
 
+    /**
+     * Returns a 'raw' http entity.
+     * 
+     * No conversion is made, and everything after
+     * header section of the response (without leading CRLF)
+     * is returned.
+     * 
+     * @return string response body
+     */
     public function getRawBody() {
         return $this->body;
     }
 
+    /**
+     * Returns a http status code of the response,
+     * is a first part of status line.<br>
+     * <b>200</b> OK HTTP/1.1<br>
+     * 
+     * @return integer http status, or '0', if response
+     * could not be parsed.
+     */
     public function getStatusCode() {
         return $this->statusCode;
     }
 
+    /**
+     * Returns reason phrase, is a second part
+     * of status line.<br>
+     * 200 <br>OK</br> HTTP/1.1<br>
+     * 
+     * @return string a reason phrase
+     */
     public function getReasonPhrase() {
         return $this->reasonPhrase;
     }
 
+    /**
+     * Return http version, in form of HTTP/{MAJOR}.{MINOR}
+     * @return type
+     */
     public function getHttpVersion() {
         return $this->httpVersion;
     }
@@ -85,10 +149,10 @@ class HttpResponse {
     }
 
     protected function parseStatusLine($line) {
-        $args = explode(" ", trim($line), 3);
+        $args = explode(" ", trim($line));
         $this->statusCode = $args[0];
-        $this->reasonPhrase = $args[1];
-        $this->httpVersion = $args[2];
+        $this->httpVersion = $args[count($args) - 1];
+        $this->reasonPhrase = $args[implode(" ", array_slice($args, 1, -1))];
     }
 
     protected function parseHeader($line) {
