@@ -2,4 +2,6 @@
 CURDIR = $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 generate-doc:
-	php $(CURDIR)/../vendor/bin/phpdoc.php -d $(CURDIR)/../src -t $(CURDIR)/../doc
+	cd $(CURDIR); cd ../; \
+	rm -rf doc; \
+	php vendor/bin/phpdoc.php --visibility=public --directory=src --target=doc --template=responsive --title="php HttpClient"
