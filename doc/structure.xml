@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project title="php HttpClient" version="2.4.0&#10;">
+  <partials/>
+  <file path="HttpRequest.php" generated-path="HttpRequest.html" hash="ea9be4b4fdaa7097a99e7a6d2fc400f1" package="global">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+    </docblock>
+    <class final="false" abstract="false" namespace="org\projasource\httpclient" line="31" package="global">
+      <extends/>
+      <name>HttpRequest</name>
+      <full_name>\org\projasource\httpclient\HttpRequest</full_name>
+      <docblock line="31">
+        <description>Starting point for making a http requests.</description>
+        <long-description>Uses builder pattern making your code easy
+to write, and easy to understand.
+
+A basic example of usage would be:&lt;br&gt;
+
+&lt;pre&gt;&lt;code&gt;
+$response = HttpRequest::build("https://example.com")
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&gt;method("POST")
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&gt;contentType("application/json")
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&gt;entity(json_encode($entity))
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&gt;proxy("http://user:password@192.168.0.1:8080")
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&gt;accept("application/json")
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;-&gt;execute();
+
+echo $response-&gt;getEntity()-&gt;field;
+&lt;/pre&gt;&lt;/code&gt;</long-description>
+        <tag name="author" line="31" description="Oleg Kasian" link="mailto:o-kasian@yandex.ru"/>
+        <tag name="license" line="31" description="MIT" link="http://opensource.org/licenses/MIT"/>
+      </docblock>
+      <constant namespace="org\projasource\httpclient" line="53" package="global">
+        <name>CRLF</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::CRLF</full_name>
+        <value>"\r\n"</value>
+        <docblock line="53">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="33" package="global">
+        <name>$useSSL</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::useSSL</full_name>
+        <default>true</default>
+        <docblock line="33">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="34" package="global">
+        <name>$port</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::port</full_name>
+        <default></default>
+        <docblock line="34">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="35" package="global">
+        <name>$host</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::host</full_name>
+        <default></default>
+        <docblock line="35">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="36" package="global">
+        <name>$path</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::path</full_name>
+        <default>'/'</default>
+        <docblock line="36">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="37" package="global">
+        <name>$headers</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::headers</full_name>
+        <default>array()</default>
+        <docblock line="37">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="38" package="global">
+        <name>$method</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::method</full_name>
+        <default>'GET'</default>
+        <docblock line="38">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="39" package="global">
+        <name>$queryParams</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::queryParams</full_name>
+        <default>array()</default>
+        <docblock line="39">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="40" package="global">
+        <name>$entity</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::entity</full_name>
+        <default></default>
+        <docblock line="40">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="41" package="global">
+        <name>$contentType</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::contentType</full_name>
+        <default>'application/octet-stream'</default>
+        <docblock line="41">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="42" package="global">
+        <name>$charset</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::charset</full_name>
+        <default>"ISO-8859-1"</default>
+        <docblock line="42">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="43" package="global">
+        <name>$accept</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::accept</full_name>
+        <default>array()</default>
+        <docblock line="43">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="44" package="global">
+        <name>$context</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::context</full_name>
+        <default></default>
+        <docblock line="44">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="45" package="global">
+        <name>$proxy</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::proxy</full_name>
+        <default></default>
+        <docblock line="45">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="46" package="global">
+        <name>$connectionTimeOut</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::connectionTimeOut</full_name>
+        <default>10</default>
+        <docblock line="46">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="47" package="global">
+        <name>$readTimeOut</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::readTimeOut</full_name>
+        <default>10</default>
+        <docblock line="47">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="48" package="global">
+        <name>$async</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::async</full_name>
+        <default>false</default>
+        <docblock line="48">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="true" visibility="private" namespace="org\projasource\httpclient" line="50" package="global">
+        <name>$ALLOWED_METHODS</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::ALLOWED_METHODS</full_name>
+        <default>array('OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'PATCH')</default>
+        <docblock line="50">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="org\projasource\httpclient" line="70" package="global">
+        <name>build</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::build()</full_name>
+        <docblock line="70">
+          <description>Returns request constructed for the $url.</description>
+          <long-description>Basicly, it does nothing but &lt;code&gt;new HttpRequest($url);&lt;/code&gt;,
+however making it possible to write a request without assigning link to it,
+f.ex.&lt;br&gt;
+&lt;code&gt;HttpRequest::build("https://example.com")-&gt;async(true)-&gt;execute();&lt;/code&gt;
+&lt;br&gt;
+In future some other logic may be added to this method, so it is
+recomended to be used instead of constructor.
+
+NOTICE! an url containing user:pass section.</long-description>
+          <tag name="param" line="70" description="&lt;p&gt;an url for request&lt;/p&gt;" type="string" variable="$url">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="70" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$url</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="83" package="global">
+        <name>__construct</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::__construct()</full_name>
+        <docblock line="83">
+          <description>Constructs a new HttpRequest with a given url.</description>
+          <long-description>It is possible but not recomended to use constructor for
+obtaining an instance of HttpRequest, use {@see HttpRequest::build($url)}
+instead.</long-description>
+          <tag name="param" line="83" description="&lt;p&gt;an url for request&lt;/p&gt;" type="string" variable="$url">
+            <type>string</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$url</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="110" package="global">
+        <name>header</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::header()</full_name>
+        <docblock line="110">
+          <description>Set's a http request header.</description>
+          <long-description>NOTICE! A validation is performed, according to RFC822 section 3.1,
+triggering a warning if not valid.
+
+If a headers containing an underscore, would be concerned partialy valid,
+as they are valid by RFC822, but not recognized well by most http servers
+(becouse of CGI env variables naming).</long-description>
+          <tag name="param" line="110" description="" type="\org\projasource\httpclient\type" variable="$headerName">
+            <type>\org\projasource\httpclient\type</type>
+          </tag>
+          <tag name="param" line="110" description="" type="\org\projasource\httpclient\type" variable="$value">
+            <type>\org\projasource\httpclient\type</type>
+          </tag>
+          <tag name="return" line="110" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$headerName</name>
+          <default></default>
+          <type>\org\projasource\httpclient\type</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$value</name>
+          <default></default>
+          <type>\org\projasource\httpclient\type</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="129" package="global">
+        <name>method</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::method()</full_name>
+        <docblock line="129">
+          <description>Set's a request method.</description>
+          <long-description></long-description>
+          <tag name="param" line="129" description="&lt;p&gt;could be any of&#10;'OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'PATCH'&lt;/p&gt;" type="string" variable="$method">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="129" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$method</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="146" package="global">
+        <name>param</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::param()</full_name>
+        <docblock line="146">
+          <description>Set's a request query parameter, to be appended into request query.</description>
+          <long-description>Parameter would be urlencoded automatically, so you
+don't have to make any encoding by yourself.</long-description>
+          <tag name="param" line="146" description="&lt;p&gt;parameter name&lt;/p&gt;" type="string" variable="$name">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="146" description="&lt;p&gt;parameter value&lt;/p&gt;" type="string" variable="$value">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="146" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$name</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$value</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="167" package="global">
+        <name>entity</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::entity()</full_name>
+        <docblock line="167">
+          <description>Set's an entity to be used in HttpRequest.</description>
+          <long-description>Could be of any type, conversion will be made
+using when sending a request with a {@link contentType($type)}
+set.
+
+If a content type, or type of entity are not recognized,
+conversion to string will be obtained.
+
+If request type does not asume any entity (GET, HEAD),
+it will be ignored.</long-description>
+          <tag name="param" line="167" description="&lt;p&gt;entity of any type&lt;/p&gt;" type="mixed" variable="$entity">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="167" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$entity</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="189" package="global">
+        <name>contentType</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::contentType()</full_name>
+        <docblock line="189">
+          <description>A content type of the entity.</description>
+          <long-description>Asumes a format of [type "/" subtype],
+as described in RFC 2615 section 3.6.1.
+
+Content type is further used to convert entity into string
+(if necessary) while sending a request body, and is set into
+'Content-Type' header.
+
+NOTICE! Any data after semicolon (";") will be lost.</long-description>
+          <tag name="param" line="189" description="&lt;p&gt;content type&lt;/p&gt;" type="string" variable="$type">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="189" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$type</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="206" package="global">
+        <name>charset</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::charset()</full_name>
+        <docblock line="206">
+          <description>Charset to be set for the request entity.</description>
+          <long-description>Any entity is converted to specified charset,
+when sending request body.
+
+Default value is 'ISO-8859-1'</long-description>
+          <tag name="param" line="206" description="&lt;p&gt;charset&lt;/p&gt;" type="string" variable="$charset">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="206" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$charset</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="223" package="global">
+        <name>accept</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::accept()</full_name>
+        <docblock line="223">
+          <description>Set's an 'Accept' http header.</description>
+          <long-description>Is validated like {@see contentType}, except data
+after semicolon is not been removed.</long-description>
+          <tag name="param" line="223" description="&lt;p&gt;contentType, expected to be returned in response.&#10;May be eather string, or an array of strings (any of type listed is acceptable).&lt;/p&gt;" type="mixed" variable="$type">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="223" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$type</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="248" package="global">
+        <name>proxy</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::proxy()</full_name>
+        <docblock line="248">
+          <description>Set's up a proxy to be used in request.</description>
+          <long-description>Can also be made setting an environment variables 'httpclient.proxy.url'
+and 'httpclient.noproxy'.</long-description>
+          <tag name="see" line="248" description="" link="\org\projasource\httpclient\HttpProxy"/>
+          <tag name="param" line="248" description="&lt;p&gt;an url string or an instance of {@see HttpProxy}&lt;/p&gt;" type="mixed" variable="$proxy">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="248" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$proxy</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="271" package="global">
+        <name>context</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::context()</full_name>
+        <docblock line="271">
+          <description>Set's a stream context {@see stream_context_create()} to be used
+when opening a socket to remote http server.</description>
+          <long-description></long-description>
+          <tag name="param" line="271" description="&lt;p&gt;stream context&lt;/p&gt;" type="resource" variable="$context">
+            <type>resource</type>
+          </tag>
+          <tag name="return" line="271" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$context</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="282" package="global">
+        <name>connectTimeout</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::connectTimeout()</full_name>
+        <docblock line="282">
+          <description>Set's a timeout used when establishing socket connection.</description>
+          <long-description></long-description>
+          <tag name="param" line="282" description="&lt;p&gt;connectin timeout&lt;/p&gt;" type="int" variable="$timeout">
+            <type>int</type>
+          </tag>
+          <tag name="return" line="282" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default></default>
+          <type>int</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="294" package="global">
+        <name>readTimeout</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::readTimeout()</full_name>
+        <docblock line="294">
+          <description>Set's a timeout for reading from socket (a max time, that socket
+may be opened after connected).</description>
+          <long-description></long-description>
+          <tag name="param" line="294" description="&lt;p&gt;read timeout&lt;/p&gt;" type="int" variable="$timeout">
+            <type>int</type>
+          </tag>
+          <tag name="return" line="294" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default></default>
+          <type>int</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="310" package="global">
+        <name>async</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::async()</full_name>
+        <docblock line="310">
+          <description>Switches a request into async/sync mode.</description>
+          <long-description>If an async mode is used, no reading from socket is made,
+client just send's a request as is, no response is actually returned.
+
+Is usefull, when 'in only' pattern is used.</long-description>
+          <tag name="param" line="310" description="&lt;p&gt;a mode for request&lt;/p&gt;" type="boolean" variable="$async">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="310" description="" type="\org\projasource\httpclient\HttpRequest">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$async</name>
+          <default></default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="320" package="global">
+        <name>execute</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::execute()</full_name>
+        <docblock line="320">
+          <description>Executes a request, and returnes a response.</description>
+          <long-description></long-description>
+          <tag name="return" line="320" description="response" type="\org\projasource\httpclient\HttpResponse">
+            <type>\org\projasource\httpclient\HttpResponse</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="341" package="global">
+        <name>write</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::write()</full_name>
+        <docblock line="341">
+          <description>Writes a request body into a given socket connection.</description>
+          <long-description>Is usefull when you want to debug a request, writing
+diretly to STDOUT or file.</long-description>
+          <tag name="param" line="341" description="&lt;p&gt;any output stream&lt;/p&gt;" type="resource" variable="$resource">
+            <type>resource</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$resource</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="352" package="global">
+        <name>getUseSSL</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getUseSSL()</full_name>
+        <docblock line="352">
+          <description>Returnes whether SSL will be used in connection or not.</description>
+          <long-description></long-description>
+          <tag name="return" line="352" description="" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="361" package="global">
+        <name>getPort</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getPort()</full_name>
+        <docblock line="361">
+          <description>Returnes a remote server port.</description>
+          <long-description></long-description>
+          <tag name="return" line="361" description="" type="int">
+            <type>int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="370" package="global">
+        <name>getHost</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getHost()</full_name>
+        <docblock line="370">
+          <description>Returns a remote server hostname.</description>
+          <long-description></long-description>
+          <tag name="return" line="370" description="" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="379" package="global">
+        <name>getContext</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getContext()</full_name>
+        <docblock line="379">
+          <description>Returnes a stream context to be used in request.</description>
+          <long-description></long-description>
+          <tag name="return" line="379" description="" type="resource">
+            <type>resource</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="388" package="global">
+        <name>getConnectionTimeOut</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getConnectionTimeOut()</full_name>
+        <docblock line="388">
+          <description>Returns a connection timeout.</description>
+          <long-description></long-description>
+          <tag name="return" line="388" description="" type="int">
+            <type>int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="397" package="global">
+        <name>getReadTimeOut</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getReadTimeOut()</full_name>
+        <docblock line="397">
+          <description>Returnes a read timeout.</description>
+          <long-description></long-description>
+          <tag name="return" line="397" description="" type="int">
+            <type>int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="401" package="global">
+        <name>getDefaultContext</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::getDefaultContext()</full_name>
+        <docblock line="401">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="416" package="global">
+        <name>connect</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::connect()</full_name>
+        <docblock line="416">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="429" package="global">
+        <name>writeStatusLine</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::writeStatusLine()</full_name>
+        <docblock line="429">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$res</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="433" package="global">
+        <name>writeHeaders</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::writeHeaders()</full_name>
+        <docblock line="433">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$res</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="449" package="global">
+        <name>writeBody</name>
+        <full_name>\org\projasource\httpclient\HttpRequest::writeBody()</full_name>
+        <docblock line="449">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$res</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <markers>
+      <todo line="168">convert if required</todo>
+      <todo line="169">consider multipart entities</todo>
+      <todo line="190">validate</todo>
+      <todo line="207">validate</todo>
+      <todo line="224">validate</todo>
+      <todo line="321">look into HTTPCLIENT_PROXY_URL, HTTPCLIENT_NOPROXY</todo>
+      <todo line="322">add validation for no-proxy hosts</todo>
+    </markers>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="110" code="PPC:ERR-50018">The type for the param tag $headerName in header() is either "type" or "unknown"; isn't this an IDE default?</error>
+      <error line="110" code="PPC:ERR-50018">The type for the param tag $value in header() is either "type" or "unknown"; isn't this an IDE default?</error>
+      <error line="401" code="PPC:ERR-50008">No summary for method getDefaultContext()</error>
+      <error line="416" code="PPC:ERR-50008">No summary for method connect()</error>
+      <error line="429" code="PPC:ERR-50015">Argument $res is missing from the Docblock of writeStatusLine()</error>
+      <error line="429" code="PPC:ERR-50008">No summary for method writeStatusLine()</error>
+      <error line="433" code="PPC:ERR-50015">Argument $res is missing from the Docblock of writeHeaders()</error>
+      <error line="433" code="PPC:ERR-50008">No summary for method writeHeaders()</error>
+      <error line="449" code="PPC:ERR-50015">Argument $res is missing from the Docblock of writeBody()</error>
+      <error line="449" code="PPC:ERR-50008">No summary for method writeBody()</error>
+      <error line="33" code="PPC:ERR-50007">No summary for property $useSSL</error>
+      <error line="34" code="PPC:ERR-50007">No summary for property $port</error>
+      <error line="35" code="PPC:ERR-50007">No summary for property $host</error>
+      <error line="36" code="PPC:ERR-50007">No summary for property $path</error>
+      <error line="37" code="PPC:ERR-50007">No summary for property $headers</error>
+      <error line="38" code="PPC:ERR-50007">No summary for property $method</error>
+      <error line="39" code="PPC:ERR-50007">No summary for property $queryParams</error>
+      <error line="40" code="PPC:ERR-50007">No summary for property $entity</error>
+      <error line="41" code="PPC:ERR-50007">No summary for property $contentType</error>
+      <error line="42" code="PPC:ERR-50007">No summary for property $charset</error>
+      <error line="43" code="PPC:ERR-50007">No summary for property $accept</error>
+      <error line="44" code="PPC:ERR-50007">No summary for property $context</error>
+      <error line="45" code="PPC:ERR-50007">No summary for property $proxy</error>
+      <error line="46" code="PPC:ERR-50007">No summary for property $connectionTimeOut</error>
+      <error line="47" code="PPC:ERR-50007">No summary for property $readTimeOut</error>
+      <error line="48" code="PPC:ERR-50007">No summary for property $async</error>
+      <error line="50" code="PPC:ERR-50007">No summary for property $ALLOWED_METHODS</error>
+    </parse_markers>
+    <source>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</source>
+  </file>
+  <file path="HttpProxy.php" generated-path="HttpProxy.html" hash="37f508aae8bf5f8b1aa2dc5eb875374a" package="global">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+    </docblock>
+    <class final="false" abstract="false" namespace="org\projasource\httpclient" line="14" package="global">
+      <extends/>
+      <name>HttpProxy</name>
+      <full_name>\org\projasource\httpclient\HttpProxy</full_name>
+      <docblock line="14">
+        <description>A class for obtaining a connection via HTTP(s) proxy.</description>
+        <long-description>An instance of this class does not change it's state between connections,
+thereofore may be safely used several times during one process.</long-description>
+        <tag name="author" line="14" description="Oleg Kasian" link="mailto:o-kasian@yandex.ru"/>
+        <tag name="license" line="14" description="MIT" link="http://opensource.org/licenses/MIT"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="16" package="global">
+        <name>$host</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::host</full_name>
+        <default></default>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="17" package="global">
+        <name>$port</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::port</full_name>
+        <default>8080</default>
+        <docblock line="17">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="18" package="global">
+        <name>$user</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::user</full_name>
+        <default></default>
+        <docblock line="18">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="19" package="global">
+        <name>$password</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::password</full_name>
+        <default></default>
+        <docblock line="19">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="20" package="global">
+        <name>$scheme</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::scheme</full_name>
+        <default></default>
+        <docblock line="20">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="21" package="global">
+        <name>$noproxy</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::noproxy</full_name>
+        <default>array()</default>
+        <docblock line="21">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="30" package="global">
+        <name>__construct</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::__construct()</full_name>
+        <docblock line="30">
+          <description>Constructor for the proxy,
+may be early initialized by passing url string,
+or lately, using builder methods.</description>
+          <long-description></long-description>
+          <tag name="param" line="30" description="&lt;p&gt;string containig valid proxy url&lt;/p&gt;" type="string" variable="$url">
+            <type>string</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$url</name>
+          <default>null</default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="47" package="global">
+        <name>user</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::user()</full_name>
+        <docblock line="47">
+          <description>Sets username for authorization.</description>
+          <long-description></long-description>
+          <tag name="param" line="47" description="" type="string" variable="$userName">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="47" description="" type="\org\projasource\httpclient\HttpProxy">
+            <type>\org\projasource\httpclient\HttpProxy</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$userName</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="58" package="global">
+        <name>password</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::password()</full_name>
+        <docblock line="58">
+          <description>Sets password for authorization.</description>
+          <long-description></long-description>
+          <tag name="param" line="58" description="" type="string" variable="$password">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="58" description="itself" type="\org\projasource\httpclient\HttpProxy">
+            <type>\org\projasource\httpclient\HttpProxy</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$password</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="69" package="global">
+        <name>host</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::host()</full_name>
+        <docblock line="69">
+          <description>Sets proxy hostname.</description>
+          <long-description></long-description>
+          <tag name="param" line="69" description="" type="string" variable="$host">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="69" description="itself" type="\org\projasource\httpclient\HttpProxy">
+            <type>\org\projasource\httpclient\HttpProxy</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$host</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="80" package="global">
+        <name>port</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::port()</full_name>
+        <docblock line="80">
+          <description>Sets proxy port (default is 8080).</description>
+          <long-description></long-description>
+          <tag name="param" line="80" description="" type="string" variable="$port">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="80" description="itself" type="\org\projasource\httpclient\HttpProxy">
+            <type>\org\projasource\httpclient\HttpProxy</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$port</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="94" package="global">
+        <name>noproxy</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::noproxy()</full_name>
+        <docblock line="94">
+          <description>Sets a noproxy range(s) for skipping
+while making a socket connection.</description>
+          <long-description></long-description>
+          <tag name="param" line="94" description="&lt;p&gt;an array (or a single string)&#10;of hostnames, ip addresses,&#10;network ranges to be skipped by proxy.&lt;/p&gt;" type="mixed" variable="$hosts">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="94" description="itself" type="\org\projasource\httpclient\HttpProxy">
+            <type>\org\projasource\httpclient\HttpProxy</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$hosts</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="115" package="global">
+        <name>connect</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::connect()</full_name>
+        <docblock line="115">
+          <description>Connects to a proxy, making CONNECT request using instance of {@see HttpRequest}
+for obtaining host and port.</description>
+          <long-description></long-description>
+          <tag name="param" line="115" description="&lt;p&gt;a request to be made&lt;/p&gt;" type="\org\projasource\httpclient\HttpRequest" variable="$request">
+            <type>\org\projasource\httpclient\HttpRequest</type>
+          </tag>
+          <tag name="return" line="115" description="socket connection to a proxy, ready for writing a request" type="resource">
+            <type>resource</type>
+          </tag>
+          <tag name="throws" line="115" description="in case a connection could not be made,&#10;or proxy returned any status except for 200" type="\org\projasource\httpclient\Exception">
+            <type>\org\projasource\httpclient\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$request</name>
+          <default></default>
+          <type>\org\projasource\httpclient\HttpRequest</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="122" package="global">
+        <name>__toString</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::__toString()</full_name>
+        <docblock line="122">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="128" package="global">
+        <name>isValid</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::isValid()</full_name>
+        <docblock line="128">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="132" package="global">
+        <name>connectViaSSL</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::connectViaSSL()</full_name>
+        <docblock line="132">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$request</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="138" package="global">
+        <name>connectViaTCP</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::connectViaTCP()</full_name>
+        <docblock line="138">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$request</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="142" package="global">
+        <name>doConnect</name>
+        <full_name>\org\projasource\httpclient\HttpProxy::doConnect()</full_name>
+        <docblock line="142">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$request</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="122" code="PPC:ERR-50008">No summary for method __toString()</error>
+      <error line="128" code="PPC:ERR-50008">No summary for method isValid()</error>
+      <error line="132" code="PPC:ERR-50015">Argument $request is missing from the Docblock of connectViaSSL()</error>
+      <error line="132" code="PPC:ERR-50008">No summary for method connectViaSSL()</error>
+      <error line="138" code="PPC:ERR-50015">Argument $request is missing from the Docblock of connectViaTCP()</error>
+      <error line="138" code="PPC:ERR-50008">No summary for method connectViaTCP()</error>
+      <error line="142" code="PPC:ERR-50015">Argument $request is missing from the Docblock of doConnect()</error>
+      <error line="142" code="PPC:ERR-50008">No summary for method doConnect()</error>
+      <error line="16" code="PPC:ERR-50007">No summary for property $host</error>
+      <error line="17" code="PPC:ERR-50007">No summary for property $port</error>
+      <error line="18" code="PPC:ERR-50007">No summary for property $user</error>
+      <error line="19" code="PPC:ERR-50007">No summary for property $password</error>
+      <error line="20" code="PPC:ERR-50007">No summary for property $scheme</error>
+      <error line="21" code="PPC:ERR-50007">No summary for property $noproxy</error>
+    </parse_markers>
+    <source>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</source>
+  </file>
+  <file path="HttpResponse.php" generated-path="HttpResponse.html" hash="e3b65e244c820fab0cdfe84a2e0aa4de" package="global">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+    </docblock>
+    <class final="false" abstract="false" namespace="org\projasource\httpclient" line="12" package="global">
+      <extends/>
+      <name>HttpResponse</name>
+      <full_name>\org\projasource\httpclient\HttpResponse</full_name>
+      <docblock line="12">
+        <description>Describes response of http server, provides methods for
+fast access to different response parts.</description>
+        <long-description></long-description>
+        <tag name="author" line="12" description="Oleg Kasian" link="mailto:o-kasian@yandex.ru"/>
+        <tag name="license" line="12" description="MIT" link="http://opensource.org/licenses/MIT"/>
+      </docblock>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="14" package="global">
+        <name>$statusCode</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::statusCode</full_name>
+        <default>0</default>
+        <docblock line="14">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="15" package="global">
+        <name>$reasonPhrase</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::reasonPhrase</full_name>
+        <default></default>
+        <docblock line="15">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="16" package="global">
+        <name>$httpVersion</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::httpVersion</full_name>
+        <default></default>
+        <docblock line="16">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="17" package="global">
+        <name>$headers</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::headers</full_name>
+        <default>array()</default>
+        <docblock line="17">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="18" package="global">
+        <name>$body</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::body</full_name>
+        <default>''</default>
+        <docblock line="18">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="19" package="global">
+        <name>$contentType</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::contentType</full_name>
+        <default></default>
+        <docblock line="19">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="20" package="global">
+        <name>$charset</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::charset</full_name>
+        <default>"ISO-8859-1"</default>
+        <docblock line="20">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <property static="false" visibility="private" namespace="org\projasource\httpclient" line="21" package="global">
+        <name>$entity</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::entity</full_name>
+        <default></default>
+        <docblock line="21">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="38" package="global">
+        <name>__construct</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::__construct()</full_name>
+        <docblock line="38">
+          <description>Creates new HttpResponse, reading it from
+input sream of the given resource.</description>
+          <long-description>In most cases Response is not constructed
+manually, however it may be 'mocked' by opening
+a file containing raw http response, and passing
+file descriptor to a constructor f.ex.
+&lt;code&gt;&lt;pre&gt;
+$fp = fopen('response.raw');
+$resp = new HttpResponse($fp);
+&lt;/pre&gt;&lt;/code&gt;</long-description>
+          <tag name="param" line="38" description="" type="resource" variable="$resource">
+            <type>resource</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$resource</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="77" package="global">
+        <name>getHeaders</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getHeaders()</full_name>
+        <docblock line="77">
+          <description>Returns http headers in a form of array.</description>
+          <long-description>NOTICE! All header names will be lowercased,
+as far as they have to be case insensitive.
+If you need to obtain an information about
+a concrete header, use {@see getHeader}</long-description>
+          <tag name="return" line="77" description="associative array $header_name =&gt; $header_value" type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="90" package="global">
+        <name>getHeader</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getHeader()</full_name>
+        <docblock line="90">
+          <description>Returns value for the header with a given name.</description>
+          <long-description>NOTICE! Header names are case insensitive.</long-description>
+          <tag name="param" line="90" description="&lt;p&gt;name of the header&lt;/p&gt;" type="string" variable="$name">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="90" description="header value, or null if no header for the&#10;given name exist." type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$name</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="104" package="global">
+        <name>getRawBody</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getRawBody()</full_name>
+        <docblock line="104">
+          <description>Returns a 'raw' http entity.</description>
+          <long-description>No conversion is made, and everything after
+header section of the response (without leading CRLF)
+is returned.</long-description>
+          <tag name="return" line="104" description="response body" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="116" package="global">
+        <name>getStatusCode</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getStatusCode()</full_name>
+        <docblock line="116">
+          <description>Returns a http status code of the response,
+is a first part of status line.&lt;br&gt;
+&lt;b&gt;200&lt;/b&gt; OK HTTP/1.1&lt;br&gt;</description>
+          <long-description></long-description>
+          <tag name="return" line="116" description="http status, or '0', if response&#10;could not be parsed." type="integer">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="127" package="global">
+        <name>getReasonPhrase</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getReasonPhrase()</full_name>
+        <docblock line="127">
+          <description>Returns reason phrase, is a second part
+of status line.&lt;br&gt;
+200 &lt;b&gt;OK&lt;/b&gt; HTTP/1.1&lt;br&gt;</description>
+          <long-description></long-description>
+          <tag name="return" line="127" description="a reason phrase" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="136" package="global">
+        <name>getHttpVersion</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getHttpVersion()</full_name>
+        <docblock line="136">
+          <description>Return http version, in form of HTTP/{MAJOR}.{MINOR}&lt;br&gt;
+200 OK &lt;b&gt;HTTP/1.1&lt;/b&gt;&lt;br&gt;</description>
+          <long-description></long-description>
+          <tag name="return" line="136" description="http version" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="144" package="global">
+        <name>getContentType</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getContentType()</full_name>
+        <docblock line="144">
+          <description>Returns content type in form type/subtype.</description>
+          <long-description></long-description>
+          <tag name="return" line="144" description="content type" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="152" package="global">
+        <name>getCharset</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getCharset()</full_name>
+        <docblock line="152">
+          <description>Returns charset.</description>
+          <long-description></long-description>
+          <tag name="return" line="152" description="charset parsed from request or default &quot;ISO-8859-1&quot;" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="org\projasource\httpclient" line="160" package="global">
+        <name>getEntity</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::getEntity()</full_name>
+        <docblock line="160">
+          <description>Returns http entity parsed form response.</description>
+          <long-description></long-description>
+          <tag name="return" line="160" description="an object representation of an entity, depending on a content-type" type="mixed">
+            <type>mixed</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="164" package="global">
+        <name>parseStatusLine</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::parseStatusLine()</full_name>
+        <docblock line="164">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$line</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="171" package="global">
+        <name>parseHeader</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::parseHeader()</full_name>
+        <docblock line="171">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$line</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="177" package="global">
+        <name>process</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::process()</full_name>
+        <docblock line="177">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="191" package="global">
+        <name>processContentType</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::processContentType()</full_name>
+        <docblock line="191">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="org\projasource\httpclient" line="210" package="global">
+        <name>processEntity</name>
+        <full_name>\org\projasource\httpclient\HttpResponse::processEntity()</full_name>
+        <docblock line="210">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+    </class>
+    <markers>
+      <todo line="54">conversion</todo>
+    </markers>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="164" code="PPC:ERR-50015">Argument $line is missing from the Docblock of parseStatusLine()</error>
+      <error line="164" code="PPC:ERR-50008">No summary for method parseStatusLine()</error>
+      <error line="171" code="PPC:ERR-50015">Argument $line is missing from the Docblock of parseHeader()</error>
+      <error line="171" code="PPC:ERR-50008">No summary for method parseHeader()</error>
+      <error line="177" code="PPC:ERR-50008">No summary for method process()</error>
+      <error line="191" code="PPC:ERR-50008">No summary for method processContentType()</error>
+      <error line="210" code="PPC:ERR-50008">No summary for method processEntity()</error>
+      <error line="14" code="PPC:ERR-50007">No summary for property $statusCode</error>
+      <error line="15" code="PPC:ERR-50007">No summary for property $reasonPhrase</error>
+      <error line="16" code="PPC:ERR-50007">No summary for property $httpVersion</error>
+      <error line="17" code="PPC:ERR-50007">No summary for property $headers</error>
+      <error line="18" code="PPC:ERR-50007">No summary for property $body</error>
+      <error line="19" code="PPC:ERR-50007">No summary for property $contentType</error>
+      <error line="20" code="PPC:ERR-50007">No summary for property $charset</error>
+      <error line="21" code="PPC:ERR-50007">No summary for property $entity</error>
+    </parse_markers>
+    <source>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</source>
+  </file>
+  <file path="util.php" generated-path="util.html" hash="3dd9c221c0a3555a6d8d651fe4ba1740" package="global">
+    <docblock line="0">
+      <description></description>
+      <long-description></long-description>
+    </docblock>
+    <constant namespace="\" line="11" package="global">
+      <name>HTTPCLIENT_CACERT_PATH</name>
+      <full_name>\\HTTPCLIENT_CACERT_PATH</full_name>
+      <value>"httpclient.cacert.path"</value>
+      <docblock line="11">
+        <description>Utility functions for HttpClient.</description>
+        <long-description>This file is required to be included, if you are using HttpClient.</long-description>
+        <tag name="author" line="11" description="Oleg Kasian" link="mailto:o-kasian@yandex.ru"/>
+        <tag name="license" line="11" description="MIT" link="http://opensource.org/licenses/MIT"/>
+      </docblock>
+    </constant>
+    <constant namespace="\" line="12" package="global">
+      <name>HTTPCLIENT_CACERT_PASSPHRASE</name>
+      <full_name>\\HTTPCLIENT_CACERT_PASSPHRASE</full_name>
+      <value>"httpclient.cacert.passphrase"</value>
+      <docblock line="12">
+        <description></description>
+        <long-description></long-description>
+      </docblock>
+    </constant>
+    <constant namespace="\" line="13" package="global">
+      <name>HTTPCLIENT_PROXY_URL</name>
+      <full_name>\\HTTPCLIENT_PROXY_URL</full_name>
+      <value>"httpclient.proxy.url"</value>
+      <docblock line="13">
+        <description></description>
+        <long-description></long-description>
+      </docblock>
+    </constant>
+    <constant namespace="\" line="14" package="global">
+      <name>HTTPCLIENT_NOPROXY</name>
+      <full_name>\\HTTPCLIENT_NOPROXY</full_name>
+      <value>"httpclient.noproxy"</value>
+      <docblock line="14">
+        <description></description>
+        <long-description></long-description>
+      </docblock>
+    </constant>
+    <function namespace="" line="34" package="global">
+      <name>httpClientAutoLoad</name>
+      <full_name>\httpClientAutoLoad()</full_name>
+      <docblock line="34">
+        <description>HttpClient autoloader.</description>
+        <long-description>If you do not use Composer, you can
+add this in the begining of your &lt;code&gt;__autoload&lt;/code&gt; chain f.ex.
+&lt;br&gt;
+&lt;pre&gt;&lt;code&gt;
+function __autoload($className) {
+&amp;nbsp;&amp;nbsp;if (httpClientAutoLoad($className)) {
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;return;
+&amp;nbsp;&amp;nbsp;}
+&amp;nbsp;&amp;nbsp;//your code here
+}
+&lt;/code&gt;&lt;/pre&gt;</long-description>
+        <tag name="param" line="34" description="&lt;p&gt;name of the class to be looked for&lt;/p&gt;" type="\type" variable="$className">
+          <type>\type</type>
+        </tag>
+        <tag name="return" line="34" description="if the following class was loaded" type="boolean">
+          <type>boolean</type>
+        </tag>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$className</name>
+        <default></default>
+        <type>\type</type>
+      </argument>
+    </function>
+    <function namespace="" line="55" package="global">
+      <name>isIpInRange</name>
+      <full_name>\isIpInRange()</full_name>
+      <docblock line="55">
+        <description>Checks if a given ip is in a network range.</description>
+        <long-description></long-description>
+        <tag name="author" line="55" description="https://gist.github.com/tott/7684443"/>
+        <tag name="param" line="55" description="&lt;p&gt;IP to check in IPV4 format eg. 127.0.0.1&lt;/p&gt;" type="string" variable="$ip">
+          <type>string</type>
+        </tag>
+        <tag name="param" line="55" description="&lt;p&gt;IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed&lt;/p&gt;" type="string" variable="$range">
+          <type>string</type>
+        </tag>
+        <tag name="return" line="55" description="true if the ip is in this range / false if not." type="boolean">
+          <type>boolean</type>
+        </tag>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$ip</name>
+        <default></default>
+        <type>string</type>
+      </argument>
+      <argument line="0" by_reference="false">
+        <name>$range</name>
+        <default></default>
+        <type>string</type>
+      </argument>
+    </function>
+    <function namespace="" line="75" package="global">
+      <name>httpRequest</name>
+      <full_name>\httpRequest()</full_name>
+      <docblock line="75">
+        <description>Builds a new {@see \org\projasource\httpclient\HttpRequest}.</description>
+        <long-description>An alias for {@see \org\projasource\httpclient\HttpRequest::build($url)}.</long-description>
+        <tag name="param" line="75" description="&lt;p&gt;an url for constructing a request&lt;/p&gt;" type="string" variable="$url">
+          <type>string</type>
+        </tag>
+        <tag name="return" line="75" description="" type="\org\projasource\httpclient\HttpRequest">
+          <type>\org\projasource\httpclient\HttpRequest</type>
+        </tag>
+      </docblock>
+      <argument line="0" by_reference="false">
+        <name>$url</name>
+        <default></default>
+        <type>string</type>
+      </argument>
+    </function>
+    <parse_markers>
+      <error line="0" code="PPC:ERR-50000">No summary was found for this file</error>
+      <error line="34" code="PPC:ERR-50018">The type for the param tag $className in \httpClientAutoLoad() is either "type" or "unknown"; isn't this an IDE default?</error>
+    </parse_markers>
+    <source>eJyVVmFPIzcQ/c6vGEXo2NCwewTUq0ig0JSKqBSikKtaCWnleJ2si2NvbW8DOtHf3hnvJlkCnHqJssna857Hb9442/+xyIudnWR/fwf24bOXSvonmJWae2m0g5mxcOV9MVBSaB9T0CSXOC6VAPy24u9SWpGBNzDFEc1VmYmsA3IGT6YEZgWUTur5Ngt9zlnpc1zgVok5/MqcZBr65uAh/Dp/YjoTj7Etz0KsklxoJyBHnpMkMQXemdJyERs7T+pZl/w2nAB+EJLs7GRiJrWIWleTyWhwPby8maSDi8HleJKOLiZXrQ60iI1XWXHGhfVxwXzeave+ir27G12NL+4u32Nwrsgtc+IdntH49o8/08/j6y18Yc3jU1xa9Q7u5jYgt1DaBBxhVnXcaA0osVGGZcKuZR9WpckMaOOxOgIGZlEYJ2wnTHCmKYxlWFWqtdT4LbC8c6mpkibgLfS5ycRZmq6W6CdhAHjOEDKLsXjE05/aUMF+YcVZhaHblcdgQxDtcoXa3bCFaMMXCvqgp67oVVd0VJSvN3aBmOstzBug5tUKX1rd2w553h5IkrA9yhRyYQXNh6B6g/2EdrI2ccEsW4B/KgRscgFNF1SKlAujdYcoYx6wXbCvArjKCabGKIHulxVgZpQyS9K6gi6Zg1DELPh6Ld3X5SA18LWLbXwKLeySezTKX6zqmvuNg1q9EEf6Om/RCA2SDsHbcHp6Ch9XhIGUK2J15RQhL+LxXgkdBdh3cNjubTDUWgjKpCV1ojT9ZXh9maZtiGEv2cNrYMWbGA+lvQ2QMqMDJxWP0nlMj4jazXRCVHX2pEZzUa21YXhe/6oF97YU1XQ1VQ/PmHI4/rzupEEu+IOjDBjM5T8CS1RA1RMMtPBLYx/AMj0Xr041EtjhSTXHnOO59Hk5jblZJN54n3z6/ofj4+OjhoFQNyr4LvIPR2QWTkvTQsPR78dkmAXzIOYxHHY/xR/xffgGOqSCiGQw/HlMCS6Ye3iB+ph0jzuA+zQbItoR41wUHq2Jxy4kR13AipaL4LhXNiX1Vl5d6xHOimr9pBKSQvCIiV+aVrphMdRjCoxwt5066VU5mzYMEx0yB1mwIn3hwmq5+BRDjrp7zYIqVD2CFcPuSgnkAfFYKOzjCGk764hubdTqPs0ElwumMFoWXWX0vE5mFSWLt0JksZpfSpVxZrNGVGGWUbcDEaC2B+uM0MYHcFij6rEG6N/XVL2mYSN8N5P58JokSBdtb+zNwHbT+j+VuLALNl/Cl3MnBNy/f4jc03/OGJ8GhPPP6164wDZRklXPEd/EcXIypfWjXfw7bG8It+yOk+hXoC9ageMjC3oTfYaTLDycIFXTwf9z9dfHbD1R5VNb8Ns4X+wIhf4Pyev/Jw==</source>
+  </file>
+  <package name="global" full_name="global"/>
+  <namespace name="global" full_name="global"/>
+  <namespace name="" full_name="">
+    <namespace name="" full_name="\"/>
+  </namespace>
+  <namespace name="org" full_name="org">
+    <namespace name="projasource" full_name="org\projasource">
+      <namespace name="httpclient" full_name="org\projasource\httpclient"/>
+    </namespace>
+  </namespace>
+  <deprecated count="0"/>
+</project>

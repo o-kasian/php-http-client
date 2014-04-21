@@ -17,7 +17,7 @@ class HttpResponse {
     private $headers = array();
     private $body = '';
     private $contentType;
-    private $charset;
+    private $charset = "ISO-8859-1";
     private $entity;
 
     /**
@@ -120,7 +120,7 @@ class HttpResponse {
     /**
      * Returns reason phrase, is a second part
      * of status line.<br>
-     * 200 <br>OK</br> HTTP/1.1<br>
+     * 200 <b>OK</b> HTTP/1.1<br>
      * 
      * @return string a reason phrase
      */
@@ -129,21 +129,34 @@ class HttpResponse {
     }
 
     /**
-     * Return http version, in form of HTTP/{MAJOR}.{MINOR}
-     * @return type
+     * Return http version, in form of HTTP/{MAJOR}.{MINOR}<br>
+     * 200 OK <b>HTTP/1.1</b><br>
+     * @return string http version
      */
     public function getHttpVersion() {
         return $this->httpVersion;
     }
 
+    /**
+     * Returns content type in form type/subtype.
+     * @return string content type
+     */
     public function getContentType() {
         return $this->contentType;
     }
 
+    /**
+     * Returns charset.
+     * @return string charset parsed from request or default "ISO-8859-1"
+     */
     public function getCharset() {
         return $this->charset;
     }
 
+    /**
+     * Returns http entity parsed form response.
+     * @return mixed an object representation of an entity, depending on a content-type
+     */
     public function getEntity() {
         return $this->entity;
     }

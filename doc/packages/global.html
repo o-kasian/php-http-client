@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>php HttpClient » global</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">php HttpClient</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/.html"><i class="icon-th"></i> </a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a href="../namespaces/org.html"><i class="icon-th"></i> org</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">61</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-map-marker"></i> Packages</li>
+<li>
+<a href="../packages/global.html" title="global"><i class="icon-folder-open"></i>global</a><ul class="nav nav-list nav-packages"></ul>
+</li>
+<li class="nav-header">
+<i title="Functions" class="icon-custom icon-function"></i> Functions</li>
+<li class="function  "><a href="#function_httpClientAutoLoad" title="httpClientAutoLoad() :: HttpClient autoloader."><span class="description">HttpClient autoloader.</span><pre>httpClientAutoLoad</pre></a></li>
+<li class="function  "><a href="#function_httpRequest" title="httpRequest() :: Builds a new {@see \org\projasource\httpclient\HttpRequest}."><span class="description">Builds a new {@see \org\projasource\httpclient\HttpRequest}.</span><pre>httpRequest</pre></a></li>
+<li class="function  "><a href="#function_isIpInRange" title="isIpInRange() :: Checks if a given ip is in a network range."><span class="description">Checks if a given ip is in a network range.</span><pre>isIpInRange</pre></a></li>
+<li class="nav-header">
+<i title="Classes" class="icon-custom icon-class"></i> Classes</li>
+<li><a href="#HttpRequest" title="Starting point for making a http requests.">HttpRequest</a></li>
+<li><a href="#HttpProxy" title="A class for obtaining a connection via HTTP(s) proxy.">HttpProxy</a></li>
+<li><a href="#HttpResponse" title="Describes response of http server, provides methods for
+fast access to different response parts.">HttpResponse</a></li>
+<li class="nav-header">
+<i title="Constants" class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#constant_HTTPCLIENT_CACERT_PASSPHRASE" title="HTTPCLIENT_CACERT_PASSPHRASE() :: "><span class="description">HTTPCLIENT_CACERT_PASSPHRASE</span><pre>HTTPCLIENT_CACERT_PASSPHRASE</pre></a></li>
+<li class="constant  "><a href="#constant_HTTPCLIENT_CACERT_PATH" title="HTTPCLIENT_CACERT_PATH() :: Utility functions for HttpClient."><span class="description">Utility functions for HttpClient.</span><pre>HTTPCLIENT_CACERT_PATH</pre></a></li>
+<li class="constant  "><a href="#constant_HTTPCLIENT_NOPROXY" title="HTTPCLIENT_NOPROXY() :: "><span class="description">HTTPCLIENT_NOPROXY</span><pre>HTTPCLIENT_NOPROXY</pre></a></li>
+<li class="constant  "><a href="#constant_HTTPCLIENT_PROXY_URL" title="HTTPCLIENT_PROXY_URL() :: "><span class="description">HTTPCLIENT_PROXY_URL</span><pre>HTTPCLIENT_PROXY_URL</pre></a></li>
+</ul>
+</div>
+<div class="span8 package-contents">
+<ul class="breadcrumb"><li>
+<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span><li class="active"><a href="../packages/global.html">global</a></li>
+</li></ul>
+<div class="package-indent">
+<h3>
+<i title="Functions" class="icon-custom icon-function"></i> Functions</h3>
+<a id="function_httpClientAutoLoad"></a><div class="element clickable function  function_httpClientAutoLoad" data-toggle="collapse" data-target=".function_httpClientAutoLoad .collapse" title="">
+<h2>HttpClient autoloader.</h2>
+<pre>httpClientAutoLoad(\type $className) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">If you do not use Composer, you can
+add this in the begining of your <code>__autoload</code> chain f.ex.
+<br>
+<pre><code>
+function __autoload($className) {
+&nbsp;&nbsp;if (httpClientAutoLoad($className)) {
+&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;//your code here
+}
+</code></pre></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$className</h4>
+<code>\type</code><p>name of the class to be looked for</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>if the following class was loaded</div>
+</div></div>
+</div>
+<a id="function_httpRequest"></a><div class="element clickable function  function_httpRequest" data-toggle="collapse" data-target=".function_httpRequest .collapse" title="">
+<h2>Builds a new {@see \org\projasource\httpclient\HttpRequest}.</h2>
+<pre>httpRequest(string $url) : \org\projasource\httpclient\HttpRequest</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">An alias for {@see \org\projasource\httpclient\HttpRequest::build($url)}.</div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>an url for constructing a request</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\org\projasource\httpclient\HttpRequest</code></div>
+</div></div>
+</div>
+<a id="function_isIpInRange"></a><div class="element clickable function  function_isIpInRange" data-toggle="collapse" data-target=".function_isIpInRange .collapse" title="">
+<h2>Checks if a given ip is in a network range.</h2>
+<pre>isIpInRange(string $ip, string $range) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>author</th>
+<td><a href="">https://gist.github.com/tott/7684443</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$ip</h4>
+<code>string</code><p>IP to check in IPV4 format eg. 127.0.0.1</p></div>
+<div class="subelement argument">
+<h4>$range</h4>
+<code>string</code><p>IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>true if the ip is in this range / false if not.</div>
+</div></div>
+</div>
+<h3>
+<i title="Classes" class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="HttpProxy" class="element ajax clickable class">
+<h1>HttpProxy<a href="../classes/org.projasource.httpclient.HttpProxy.html">¶</a>
+</h1>
+<p class="short_description">A class for obtaining a connection via HTTP(s) proxy.</p>
+<div class="details collapse"></div>
+<a href="../classes/org.projasource.httpclient.HttpProxy.html" class="more">« More »</a>
+</div>
+<div id="HttpRequest" class="element ajax clickable class">
+<h1>HttpRequest<a href="../classes/org.projasource.httpclient.HttpRequest.html">¶</a>
+</h1>
+<p class="short_description">Starting point for making a http requests.</p>
+<div class="details collapse"></div>
+<a href="../classes/org.projasource.httpclient.HttpRequest.html" class="more">« More »</a>
+</div>
+<div id="HttpResponse" class="element ajax clickable class">
+<h1>HttpResponse<a href="../classes/org.projasource.httpclient.HttpResponse.html">¶</a>
+</h1>
+<p class="short_description">Describes response of http server, provides methods for
+fast access to different response parts.</p>
+<div class="details collapse"></div>
+<a href="../classes/org.projasource.httpclient.HttpResponse.html" class="more">« More »</a>
+</div>
+<h3>
+<i title="Constants" class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_HTTPCLIENT_CACERT_PASSPHRASE"> </a><div class="element clickable constant  constant_HTTPCLIENT_CACERT_PASSPHRASE" data-toggle="collapse" data-target=".constant_HTTPCLIENT_CACERT_PASSPHRASE .collapse" title="">
+<h2>HTTPCLIENT_CACERT_PASSPHRASE</h2>
+<pre>HTTPCLIENT_CACERT_PASSPHRASE = "httpclient.cacert.passphrase" </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_HTTPCLIENT_CACERT_PATH"> </a><div class="element clickable constant  constant_HTTPCLIENT_CACERT_PATH" data-toggle="collapse" data-target=".constant_HTTPCLIENT_CACERT_PATH .collapse" title="">
+<h2>Utility functions for HttpClient.</h2>
+<pre>HTTPCLIENT_CACERT_PATH = "httpclient.cacert.path" </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description">This file is required to be included, if you are using HttpClient.</div>
+<table class="table table-bordered">
+<tr>
+<th>author</th>
+<td><a href="mailto:o-kasian@yandex.ru">Oleg Kasian</a></td>
+</tr>
+<tr>
+<th>license</th>
+<td><a href="http://opensource.org/licenses/MIT">MIT</a></td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="constant_HTTPCLIENT_NOPROXY"> </a><div class="element clickable constant  constant_HTTPCLIENT_NOPROXY" data-toggle="collapse" data-target=".constant_HTTPCLIENT_NOPROXY .collapse" title="">
+<h2>HTTPCLIENT_NOPROXY</h2>
+<pre>HTTPCLIENT_NOPROXY = "httpclient.noproxy" </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_HTTPCLIENT_PROXY_URL"> </a><div class="element clickable constant  constant_HTTPCLIENT_PROXY_URL" data-toggle="collapse" data-target=".constant_HTTPCLIENT_PROXY_URL .collapse" title="">
+<h2>HTTPCLIENT_PROXY_URL</h2>
+<pre>HTTPCLIENT_PROXY_URL = "httpclient.proxy.url" </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.4.0
+</a> and<br>
+            generated on 2014-04-21T17:14:24+03:00.<br></footer></div>
+</div>
+</body>
+</html>
