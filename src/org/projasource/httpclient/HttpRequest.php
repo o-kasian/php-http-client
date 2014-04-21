@@ -53,7 +53,7 @@ class HttpRequest {
     const CRLF = "\r\n";
 
     /**
-     * Returns request constructed or the $url.
+     * Returns request constructed for the $url.
      *
      * Basicly, it does nothing but <code>new HttpRequest($url);</code>,
      * however making it possible to write a request without assigning link to it,
