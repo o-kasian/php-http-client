@@ -15,7 +15,13 @@ You can either use composer or include **util.php** in your app, adding
 ```php
 httpClientAutoLoad($className);
 ```
-to your `__autoload` chain
+to your `__autoload` chain, f.ex.
+```php
+function __autoload($className) {
+    if (httpClientAutoLoad($className)) return;
+    //Your code here
+}
+```
 ###Examples:
 Basically, any request starts with `HttpRequest::build($url)`.
 ####Basic Example:
