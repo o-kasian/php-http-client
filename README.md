@@ -22,6 +22,20 @@ function __autoload($className) {
     //Your code here
 }
 ```
+If you are using composer (not yet available in [packagist](https://packagist.org/)):
+```
+{
+    "repositories": [
+        {
+            "url": "https://github.com/o-kasian/php-http-client.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "projasource/httpclient": "1.0.0.RC1"
+    }
+}
+```
 ###Examples:
 Basically, any request starts with `HttpRequest::build($url)`.
 ####Basic Example:
