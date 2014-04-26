@@ -21,6 +21,8 @@ function __autoload($className) {
     if (httpClientAutoLoad($className)) return;
     //Your code here
 }
+//or use spl_autoload_register
+spl_autoload_register('httpClientAutoload');
 ```
 If you are using composer (not yet available in [packagist](https://packagist.org/)):
 ```json
