@@ -8,6 +8,7 @@ A simple and flexible tool to make HTTP requests from php applications.
 * adjustable stream context via [stream_context_create](http://www.php.net/manual/en/function.stream-context-create.php) makes it possible to use custom certificates per request, by default ssl verification is off
 * easy to use with **HTTP proxy**. Supports SSL connections through proxy.
 * easy and powerfull api, that helps you to to concentrate on things that are really important.
+* [MIT](http://opensource.org/licenses/MIT) license
 
 ###Installation:
 You can either use composer or include **util.php** in your app, adding
