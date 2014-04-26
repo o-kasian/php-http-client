@@ -23,7 +23,7 @@ function __autoload($className) {
 }
 ```
 If you are using composer (not yet available in [packagist](https://packagist.org/)):
-```
+```json
 {
     "repositories": [
         {
