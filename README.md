@@ -29,7 +29,7 @@ If you are using composer (not yet available in [packagist](https://packagist.or
 {
     "repositories": [
         {
-            "url": "https://github.com/o-kasian/php-http-client.git",
+            "url": "https://github.com/projasource/php-http-client.git",
             "type": "git"
         }
     ],
